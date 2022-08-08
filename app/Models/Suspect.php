@@ -12,6 +12,11 @@ class Suspect extends Model
 
   protected $guarded = [];
 
+  public function scopeIdNumber($query, $idNumber)
+  {
+    return $query->where('id_number', $idNumber);
+  }
+
   /**
    * Undocumented function
    *

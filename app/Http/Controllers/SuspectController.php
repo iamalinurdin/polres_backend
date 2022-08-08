@@ -14,9 +14,19 @@ class SuspectController extends Controller
    *
    * @return \Illuminate\Http\Response
    */
-  public function index()
+  public function index(Request $request)
   {
+    $query    = $request->query('query');
     $suspects = Suspect::paginate(10);
+
+    if (!is_null($query))
+    {
+      $request->user()->searchs()->create([
+        'params' => $query
+      ]);
+
+      $suspects = Suspect::where('id_number', $query)->paginate(10);
+    }
 
     return SuscpectResource::collection($suspects);
   }
